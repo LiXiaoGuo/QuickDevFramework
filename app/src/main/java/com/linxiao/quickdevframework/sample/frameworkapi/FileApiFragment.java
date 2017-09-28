@@ -54,8 +54,8 @@ public class FileApiFragment extends BaseFragment {
         .perform(getActivity(), new RequestPermissionCallback() {
             @Override
             public void onGranted() {
-                Logger.d(TAG, FileManager.getExternalStorageRootString());
-                Logger.d(TAG, FileManager.getInternalStorageRootString());
+                Logger.d(getTAG(), FileManager.getExternalStorageRootString());
+                Logger.d(getTAG(), FileManager.getInternalStorageRootString());
                 try {
                     FileManager.pathStringToFile(totalFilePath).mkdir();
                     File txtFile = FileManager.pathStringToFile(totalFilePath + File.separator + "text.txt");
@@ -70,7 +70,7 @@ public class FileApiFragment extends BaseFragment {
                     bufferedOutputStream.close();
                     outputStream.close();
                 } catch (IOException e) {
-                    Logger.e(TAG, e);
+                    Logger.e(getTAG(), e);
                 }
             }
 
@@ -150,7 +150,7 @@ public class FileApiFragment extends BaseFragment {
             bufferedOutputStream_.close();
             outputStream_.close();
         } catch (IOException e) {
-            Logger.e(TAG, e);
+            Logger.e(getTAG(), e);
         }
 
         FileManager.copyFileOperate(

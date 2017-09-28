@@ -34,7 +34,9 @@ public class CaptchaActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_captcha);
+
         ButterKnife.bind(this);
+        //绑定viewmodel
         captchaViewModel = ViewModelProviders.of(this).get(CaptchaViewModel.class);
         
         etMobile.addTextChangedListener(new TextWatcher() {
@@ -80,7 +82,8 @@ public class CaptchaActivity extends BaseActivity {
             }
         }));
     }
-    
+
+    //出发viewmodel的正则验证
     private void updateCaptchaState(String mobile) {
         captchaViewModel.checkRequestEnabled(mobile);
     }

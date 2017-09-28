@@ -3,15 +3,22 @@ package com.linxiao.framework.net;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.linxiao.framework.QDFApplication;
+import com.linxiao.framework.file.FileManager;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -37,7 +44,8 @@ public class RetrofitApiBuilder {
     private CookieMode cookieMode;
     private boolean hasNoConvertFactory = true;
 
-    private List<Interceptor> mInterceptors;
+    private List<Interceptor> mInterceptors;//存放拦截器
+    private List<Interceptor> mNetworkInterceptors;//存放网络拦截器
 
     public RetrofitApiBuilder() {
         mRetrofitBuilder = new Retrofit.Builder();
@@ -45,6 +53,7 @@ public class RetrofitApiBuilder {
         universalHeaders = new ArrayMap<>();
         cookieMode = CookieMode.ADD_TO_ALL;
         mInterceptors = new ArrayList<>();
+        mNetworkInterceptors = new ArrayList<>();
     }
 
     /**
@@ -106,15 +115,32 @@ public class RetrofitApiBuilder {
         return this;
     }
 
+    public RetrofitApiBuilder addCustomNetworkInterceptor(@NonNull Interceptor interceptor){
+        mNetworkInterceptors.add(interceptor);
+        return this;
+    }
+
+    public RetrofitApiBuilder changeCachePath(@NonNull String cachePath){
+        RetrofitManager.CACHE_PATH=cachePath;
+        return this;
+    }
+
 
     public <T> T build(final Class<T> clazzClientApi) {
         //基础拦截器，第一个添加
         okHttpClientBuilder.addInterceptor(new RequestConfigInterceptor());
         okHttpClientBuilder.addInterceptor(new ResponseConfigInterceptor());
+        okHttpClientBuilder.cache(new Cache(new File(RetrofitManager.CACHE_PATH),100));
+        okHttpClientBuilder.connectTimeout(5, TimeUnit.SECONDS);
         //自定义拦截器放在后面添加
         for (Interceptor interceptor : mInterceptors) {
             okHttpClientBuilder.addInterceptor(interceptor);
         }
+        //网络拦截器
+        for (Interceptor interceptor : mNetworkInterceptors) {
+            okHttpClientBuilder.addNetworkInterceptor(interceptor);
+        }
+
         mRetrofitBuilder.client(okHttpClientBuilder.build());
         if (hasNoConvertFactory) {
             mRetrofitBuilder.addConverterFactory(GsonConverterFactory.create());

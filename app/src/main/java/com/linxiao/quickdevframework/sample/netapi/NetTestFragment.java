@@ -66,18 +66,16 @@ public class NetTestFragment extends BaseFragment {
                 progressDialog.show();
             }
         })
-        .doOnComplete(new Action() {
-            @Override
-            public void run() throws Exception {
-                progressDialog.dismiss();
-            }
-        })
         .subscribe(new SampleSubscriber<String>(){
-    
             @Override
             public void onNext(@NonNull String responseBody) {
                 String result = "Response:\n " + responseBody;
                 tvResponse.setText(result);
+            }
+
+            @Override
+            public void onComplete() {
+                progressDialog.dismiss();
             }
         });
     }

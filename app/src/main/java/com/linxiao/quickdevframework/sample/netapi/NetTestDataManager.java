@@ -6,13 +6,32 @@ import com.linxiao.framework.net.HttpInfoCatchInterceptor;
 import com.linxiao.framework.net.HttpInfoCatchListener;
 import com.linxiao.framework.net.HttpInfoEntity;
 import com.linxiao.framework.net.RetrofitManager;
+import com.linxiao.framework.net.interceptor.CacheInterceptor;
+import com.linxiao.framework.net.interceptor.CaheInterceptor;
+import com.linxiao.quickdevframework.SampleApplication;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
+import okhttp3.Cache;
+import okhttp3.CacheControl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okhttp3.internal.Internal;
+import okhttp3.internal.cache.CacheRequest;
+import okhttp3.internal.cache.CacheStrategy;
+import okhttp3.internal.cache.InternalCache;
+import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * 分层架构简单示例
@@ -21,7 +40,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 public class NetTestDataManager extends BaseDataManager {
     
     private ClientApi clientApi;
-    
+    private Retrofit retrofit;
+
     public NetTestDataManager() {
         // 这些配置可以放在App工程的网络模块中，这里简要处理就不写了
         HttpInfoCatchInterceptor infoCatchInterceptor = new HttpInfoCatchInterceptor();
@@ -33,23 +53,25 @@ public class NetTestDataManager extends BaseDataManager {
                 //do something......
             }
         });
-        clientApi = RetrofitManager.createRetrofitBuilder("http://www.weather.com.cn/")
-        .setCookieMode(CookieMode.ADD_BY_ANNOTATION)
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .addCustomInterceptor(infoCatchInterceptor)
-        .build(ClientApi.class);
+        clientApi = RetrofitManager.createRetrofitBuilder("http://ysheng.lizardmind.com/")
+                .setCookieMode(CookieMode.ADD_BY_ANNOTATION)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCustomInterceptor(infoCatchInterceptor)
+                .addCustomInterceptor(new CacheInterceptor())
+                .addCustomNetworkInterceptor(new CacheInterceptor())
+                .build(ClientApi.class);
+        retrofit = new Retrofit.Builder().baseUrl("http://gank.io/api/").addConverterFactory(ScalarsConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(new OkHttpClient.Builder().cache(new Cache(new File(RetrofitManager.CACHE_PATH),100))
+                        .addInterceptor(new CaheInterceptor()).addNetworkInterceptor(new CaheInterceptor())
+                        .connectTimeout(5, TimeUnit.SECONDS).build())
+                .build();
     }
     
     /**
      * 获取测试数据
      * */
     public Observable<String> getTestData() {
-        return clientApi.getWeather("101010100")
-        .flatMap(new Function<ResponseBody, ObservableSource<String>>() {
-            @Override
-            public ObservableSource<String> apply(@NonNull ResponseBody responseBody) throws Exception {
-                return Observable.just(responseBody.string());
-            }
-        });
+        return retrofit.create(ClientApi.class).getMeiZhi();
     }
 }

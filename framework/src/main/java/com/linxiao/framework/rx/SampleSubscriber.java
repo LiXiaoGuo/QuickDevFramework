@@ -1,5 +1,7 @@
 package com.linxiao.framework.rx;
 
+import android.util.Log;
+
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -22,7 +24,9 @@ public class SampleSubscriber<T> implements Observer<T> {
     
     @Override
     public void onError(@NonNull Throwable e) {
-        
+        Log.e("Subscriber",e.getMessage());
+        onComplete();
+
     }
     
     @Override

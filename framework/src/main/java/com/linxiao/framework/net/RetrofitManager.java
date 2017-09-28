@@ -4,8 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.linxiao.framework.QDFApplication;
+import com.linxiao.framework.file.FileManager;
 import com.linxiao.framework.log.Logger;
 
+import java.io.File;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.KeyManagementException;
@@ -34,6 +36,7 @@ import okhttp3.internal.platform.Platform;
 public class RetrofitManager {
 
     private static final String TAG = RetrofitManager.class.getSimpleName();
+    public static String CACHE_PATH= FileManager.getExternalStorageRoot() + File.separator + QDFApplication.getApplicationName()+File.separator+"cache";
 
     /**
      * 提供Http请求的ApiBuilder

@@ -15,9 +15,12 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.util.Log;
 
 import com.linxiao.framework.activity.BaseActivity;
 import com.linxiao.framework.log.Logger;
+import com.linxiao.framework.log.SimpleLogImpl;
+import com.linxiao.framework.util.Utils;
 
 
 import java.io.ByteArrayInputStream;
@@ -46,6 +49,7 @@ public abstract class QDFApplication extends Application {
         TAG = getClass().getSimpleName();
         this.registerActivityLifecycleCallbacks(new FrameworkActivityLifeCycleCallback());
 
+        Utils.init(this);
     }
     
     /**
@@ -232,6 +236,7 @@ public abstract class QDFApplication extends Application {
         @Override
         public void onActivityCreated(Activity activity, Bundle bundle) {
             mActivityCount++;
+            Log.e("---------------",mActivityCount+"");
         }
 
         @Override

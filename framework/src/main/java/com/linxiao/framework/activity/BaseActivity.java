@@ -30,11 +30,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private boolean printLifeCycle = false;
     private ActivityBaseReceiver mReceiver;
-    
+    //
     private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (printLifeCycle) {
             Log.d(TAG, "onCreate");
