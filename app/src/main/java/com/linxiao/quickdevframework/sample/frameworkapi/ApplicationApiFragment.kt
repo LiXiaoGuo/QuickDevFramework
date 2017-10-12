@@ -30,9 +30,10 @@ class ApplicationApiFragment : BaseTestFragment() {
 
     @SuppressLint("SetTextI18n")
     override fun onInitView(savedInstanceState: Bundle?) {
-
         binding.apply {
+            //拿到viewModel对象并赋值
             presenter = ViewModelProviders.of(this@ApplicationApiFragment).get(ApplicationApiVM::class.java) //ApplicationApiPresenter()
+            //赋值activity给ViewModel,主要用在显示对话框等场景,无需要可不设置
             presenter?.activity = WeakReference(activity)
         }
         //生命周期感知

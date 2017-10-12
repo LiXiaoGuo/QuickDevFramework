@@ -3,7 +3,6 @@ package com.linxiao.framework;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
-import android.app.usage.NetworkStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -19,7 +18,6 @@ import android.util.Log;
 
 import com.linxiao.framework.activity.BaseActivity;
 import com.linxiao.framework.log.Logger;
-import com.linxiao.framework.log.SimpleLogImpl;
 import com.linxiao.framework.util.Utils;
 
 
@@ -34,7 +32,7 @@ import java.util.List;
  * <p>用于提供Framework模块下Application相关的基础功能，以及为Framework层提供Application Context</p>
  * Created by LinXiao on 2016-11-24.
  */
-public abstract class QDFApplication extends Application {
+public abstract class BaseApplication extends Application {
     protected static String TAG;
 
     /**
@@ -69,7 +67,7 @@ public abstract class QDFApplication extends Application {
     public static void exitApplication() {
         Intent exitIntent = new Intent();
         exitIntent.setAction(BaseActivity.ACTION_EXIT_APPLICATION);
-        QDFApplication.getAppContext().sendBroadcast(exitIntent);
+        BaseApplication.getAppContext().sendBroadcast(exitIntent);
     }
 
     /**

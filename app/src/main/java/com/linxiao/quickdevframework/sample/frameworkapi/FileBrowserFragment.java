@@ -87,7 +87,7 @@ public class FileBrowserFragment extends BaseFragment {
         .doOnProhibited(new PermissionProhibitedListener() {
             @Override
             public void onProhibited(String permission) {
-                AlertDialogManager.showAlertDialog("请授予文件管理权限以查看演示效果");
+                AlertDialogManager.INSTANCE.showAlertDialog("请授予文件管理权限以查看演示效果");
             }
         })
         .perform(getActivity(), new RequestPermissionCallback() {
@@ -101,7 +101,7 @@ public class FileBrowserFragment extends BaseFragment {
 
             @Override
             public void onDenied() {
-                AlertDialogManager.showAlertDialog("未授予权限");
+                AlertDialogManager.INSTANCE.showAlertDialog("未授予权限");
             }
         });
     }

@@ -410,7 +410,6 @@ public final class FileUtil {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File getFile(File file) {
         try {
-
             if (file.exists()) {
                 return file;
             }

@@ -1,36 +1,19 @@
 package com.linxiao.quickdevframework.sample.netapi;
 
 import com.linxiao.framework.manager.BaseDataManager;
+import com.linxiao.framework.net.BaseAPI;
 import com.linxiao.framework.net.CookieMode;
 import com.linxiao.framework.net.HttpInfoCatchInterceptor;
 import com.linxiao.framework.net.HttpInfoCatchListener;
 import com.linxiao.framework.net.HttpInfoEntity;
 import com.linxiao.framework.net.RetrofitManager;
 import com.linxiao.framework.net.interceptor.CacheInterceptor;
-import com.linxiao.framework.net.interceptor.CaheInterceptor;
-import com.linxiao.quickdevframework.SampleApplication;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
-import okhttp3.Cache;
-import okhttp3.CacheControl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okhttp3.internal.Internal;
-import okhttp3.internal.cache.CacheRequest;
-import okhttp3.internal.cache.CacheStrategy;
-import okhttp3.internal.cache.InternalCache;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
@@ -39,7 +22,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 public class NetTestDataManager extends BaseDataManager {
     
-    private ClientApi clientApi;
+    private BaseAPI clientApi;
     private Retrofit retrofit;
 
     public NetTestDataManager() {
@@ -53,25 +36,43 @@ public class NetTestDataManager extends BaseDataManager {
                 //do something......
             }
         });
-        clientApi = RetrofitManager.createRetrofitBuilder("http://ysheng.lizardmind.com/")
+        clientApi = RetrofitManager.createRetrofitBuilder("http://api.juheapi.com/")
                 .setCookieMode(CookieMode.ADD_BY_ANNOTATION)
+                .addConvertFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addCustomInterceptor(infoCatchInterceptor)
                 .addCustomInterceptor(new CacheInterceptor())
-                .addCustomNetworkInterceptor(new CacheInterceptor())
-                .build(ClientApi.class);
-        retrofit = new Retrofit.Builder().baseUrl("http://gank.io/api/").addConverterFactory(ScalarsConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(new OkHttpClient.Builder().cache(new Cache(new File(RetrofitManager.CACHE_PATH),100))
-                        .addInterceptor(new CaheInterceptor()).addNetworkInterceptor(new CaheInterceptor())
-                        .connectTimeout(5, TimeUnit.SECONDS).build())
-                .build();
+                .build(BaseAPI.class);
+//        retrofit = new Retrofit.Builder().baseUrl("http://gank.io/api/")
+//                .addConverterFactory(ScalarsConverterFactory.create())
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                .client(new OkHttpClient.Builder().cache(new Cache(new File(CacheManager.INSTANCE.getCACHE_PATH()),100))
+//                        .addInterceptor(new CacheInterceptor())
+////                        .addNetworkInterceptor(new CacheInterceptor())
+//                        .connectTimeout(5, TimeUnit.SECONDS).build())
+//                .build();
     }
     
     /**
      * 获取测试数据
      * */
     public Observable<String> getTestData() {
-        return retrofit.create(ClientApi.class).getMeiZhi();
+//        ClientApi ca =  new RxCache.Builder().persistence(new File(RetrofitManager.CACHE_PATH),new GsonSpeaker())
+//                .using(ClientApi.class);
+//        return retrofit.create(ClientApi.class).getMeiZhi();
+//        return clientApi.getDefault(new HashMap<String, String>(){{
+//            put("key","222222222222");
+//            put("v","1.0");
+//            put("month","11");
+//            put("day","1");
+//        }});
+//        return clientApi.getDefault("http://api.juheapi.com/japi/toh?day=1&v=1.0&key=222222222222&month=11");
+        return clientApi.postApi("japi/toh",new HashMap<String, String>(){{
+            put("key","222222222222");
+            put("v","1.0");
+            put("month","11");
+            put("day","1");
+        }},60*1000);
+//        return ca.getMeiZhi();
     }
 }

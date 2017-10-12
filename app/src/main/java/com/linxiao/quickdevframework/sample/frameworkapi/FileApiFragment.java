@@ -76,7 +76,7 @@ public class FileApiFragment extends BaseFragment {
 
             @Override
             public void onDenied() {
-                AlertDialogManager.showAlertDialog("请授予文件管理权限");
+                AlertDialogManager.INSTANCE.showAlertDialog("请授予文件管理权限");
             }
         });
     }

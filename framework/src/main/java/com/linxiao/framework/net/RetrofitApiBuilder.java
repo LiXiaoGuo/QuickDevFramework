@@ -3,12 +3,7 @@ package com.linxiao.framework.net;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.linxiao.framework.QDFApplication;
-import com.linxiao.framework.file.FileManager;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
-import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,7 +23,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.linxiao.framework.net.FrameworkNetConstants.ADD_COOKIE;
-import static com.linxiao.framework.net.FrameworkNetConstants.ADD_COOKIE_HEADER_STRING;
 
 /**
  * Retrofit构建类
@@ -120,17 +113,12 @@ public class RetrofitApiBuilder {
         return this;
     }
 
-    public RetrofitApiBuilder changeCachePath(@NonNull String cachePath){
-        RetrofitManager.CACHE_PATH=cachePath;
-        return this;
-    }
-
 
     public <T> T build(final Class<T> clazzClientApi) {
         //基础拦截器，第一个添加
         okHttpClientBuilder.addInterceptor(new RequestConfigInterceptor());
         okHttpClientBuilder.addInterceptor(new ResponseConfigInterceptor());
-        okHttpClientBuilder.cache(new Cache(new File(RetrofitManager.CACHE_PATH),100));
+
         okHttpClientBuilder.connectTimeout(5, TimeUnit.SECONDS);
         //自定义拦截器放在后面添加
         for (Interceptor interceptor : mInterceptors) {

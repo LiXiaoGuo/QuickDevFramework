@@ -19,6 +19,6 @@ public class BackgroundService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        AlertDialogManager.showAlertDialog("this is top dialog from service");
+        AlertDialogManager.INSTANCE.showAlertDialog("this is top dialog from service");
     }
 }

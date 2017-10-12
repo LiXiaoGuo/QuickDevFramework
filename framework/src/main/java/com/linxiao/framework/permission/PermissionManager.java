@@ -230,7 +230,7 @@ public class PermissionManager {
     public static void showPermissionProhibitedDialog(final Context context, String permission) {
         String permissionGroupName = PermissionManager.getPermissionGroupName(context, permission);
         String message = permissionGroupName + context.getString(R.string.toast_permission_denied);
-        AlertDialogManager.createAlertDialogBuilder()
+        AlertDialogManager.INSTANCE.createAlertDialogBuilder()
         .setMessage(message)
         .setPositiveButton(new DialogInterface.OnClickListener() {
             @Override
@@ -328,7 +328,7 @@ public class PermissionManager {
                 ActivityCompat.requestPermissions(activity, requestPermissions, PERMISSION_REQUEST_CODE);
             }
             else {
-                AlertDialogManager.createAlertDialogBuilder()
+                AlertDialogManager.INSTANCE.createAlertDialogBuilder()
                 .setMessage(requestDesc)
                 .setPositiveButton(new DialogInterface.OnClickListener() {
                     @Override

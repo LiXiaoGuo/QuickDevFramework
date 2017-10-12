@@ -31,12 +31,12 @@ public class PermissionApiFragment extends BaseFragment {
         .perform(getActivity(),new RequestPermissionCallback() {
             @Override
             public void onGranted() {
-                AlertDialogManager.showAlertDialog("权限已授予");
+                AlertDialogManager.INSTANCE.showAlertDialog("权限已授予");
             }
 
             @Override
             public void onDenied() {
-                AlertDialogManager.showAlertDialog("未授予权限");
+                AlertDialogManager.INSTANCE.showAlertDialog("未授予权限");
             }
         });
     }
@@ -48,12 +48,12 @@ public class PermissionApiFragment extends BaseFragment {
         .perform(getActivity(),new RequestPermissionCallback() {
             @Override
             public void onGranted() {
-                AlertDialogManager.showAlertDialog("权限已授予");
+                AlertDialogManager.INSTANCE.showAlertDialog("权限已授予");
             }
 
             @Override
             public void onDenied() {
-                AlertDialogManager.showAlertDialog("未授予权限");
+                AlertDialogManager.INSTANCE.showAlertDialog("未授予权限");
             }
         });
     }
@@ -71,12 +71,12 @@ public class PermissionApiFragment extends BaseFragment {
         .perform(getActivity(),new RequestPermissionCallback() {
             @Override
             public void onGranted() {
-                AlertDialogManager.showAlertDialog("权限已授予");
+                AlertDialogManager.INSTANCE.showAlertDialog("权限已授予");
             }
 
             @Override
             public void onDenied() {
-                AlertDialogManager.showAlertDialog("未授予权限");
+                AlertDialogManager.INSTANCE.showAlertDialog("未授予权限");
             }
         });
     }
@@ -86,12 +86,12 @@ public class PermissionApiFragment extends BaseFragment {
         PermissionManager.requestSystemAlertWindowPermission(getActivity(), new RequestPermissionCallback() {
             @Override
             public void onGranted() {
-                AlertDialogManager.showAlertDialog("权限已授予");
+                AlertDialogManager.INSTANCE.showAlertDialog("权限已授予");
             }
 
             @Override
             public void onDenied() {
-                AlertDialogManager.showAlertDialog("未授予权限");
+                AlertDialogManager.INSTANCE.showAlertDialog("未授予权限");
             }
         });
     }
@@ -101,12 +101,12 @@ public class PermissionApiFragment extends BaseFragment {
         PermissionManager.requestWriteSystemSettingsPermission(getActivity(), new RequestPermissionCallback() {
             @Override
             public void onGranted() {
-                AlertDialogManager.showAlertDialog("权限已授予");
+                AlertDialogManager.INSTANCE.showAlertDialog("权限已授予");
             }
 
             @Override
             public void onDenied() {
-                AlertDialogManager.showAlertDialog("未授予权限");
+                AlertDialogManager.INSTANCE.showAlertDialog("未授予权限");
             }
         });
     }

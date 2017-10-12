@@ -38,7 +38,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
-
     private static final String KEY_CURRENT_TAG = "CurrentTag";
     private static final String KEY_TAGS = "FragmentTags";
     private static final String KEY_CLASS_NAMES = "FragmentClassNames";

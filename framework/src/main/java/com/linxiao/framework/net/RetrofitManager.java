@@ -3,11 +3,9 @@ package com.linxiao.framework.net;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.linxiao.framework.QDFApplication;
-import com.linxiao.framework.file.FileManager;
+import com.linxiao.framework.BaseApplication;
 import com.linxiao.framework.log.Logger;
 
-import java.io.File;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.KeyManagementException;
@@ -36,7 +34,6 @@ import okhttp3.internal.platform.Platform;
 public class RetrofitManager {
 
     private static final String TAG = RetrofitManager.class.getSimpleName();
-    public static String CACHE_PATH= FileManager.getExternalStorageRoot() + File.separator + QDFApplication.getApplicationName()+File.separator+"cache";
 
     /**
      * 提供Http请求的ApiBuilder
@@ -75,7 +72,7 @@ public class RetrofitManager {
      * <p>此方法为本地存放证书时使用</p>
      * */
     public static RetrofitApiBuilder createRetrofitBuilder(int[] certificates, String serverUrl) {
-        SSLSocketFactory sslSocketFactory = getSSLSocketFactory(QDFApplication.getAppContext(), certificates);
+        SSLSocketFactory sslSocketFactory = getSSLSocketFactory(BaseApplication.getAppContext(), certificates);
         X509TrustManager trustManager = Platform.get().trustManager(sslSocketFactory);
         if (sslSocketFactory == null) {
             Logger.e(TAG, "sslSocketFactory is null");

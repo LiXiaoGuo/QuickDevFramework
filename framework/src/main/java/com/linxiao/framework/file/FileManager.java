@@ -5,7 +5,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.linxiao.framework.QDFApplication;
+import com.linxiao.framework.BaseApplication;
 import com.linxiao.framework.log.Logger;
 import com.linxiao.framework.permission.PermissionManager;
 
@@ -61,7 +61,7 @@ public class FileManager {
      * 检查是否有文件操作权限
      * */
     public static boolean hasFileOperatePermission() {
-        boolean hasPermission = PermissionManager.checkPermissionsGranted(QDFApplication.getAppContext(),
+        boolean hasPermission = PermissionManager.checkPermissionsGranted(BaseApplication.getAppContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (!hasPermission) {
@@ -120,7 +120,7 @@ public class FileManager {
      * */
     @NonNull
     public static String getInternalStorageRootString() {
-        return QDFApplication.getAppContext().getFilesDir().getPath();
+        return BaseApplication.getAppContext().getFilesDir().getPath();
     }
 
     /**
@@ -128,7 +128,7 @@ public class FileManager {
      * */
     @NonNull
     public static File getInternalStorageRoot() {
-        return QDFApplication.getAppContext().getFilesDir();
+        return BaseApplication.getAppContext().getFilesDir();
     }
 
     /**

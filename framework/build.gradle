@@ -1,10 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 16
@@ -15,6 +15,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+    dataBinding.enabled = true
     buildTypes {
         release {
             minifyEnabled false
@@ -57,6 +58,11 @@ dependencies {
     //compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile "org.jetbrains.anko:anko:$anko_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
+    compile "com.github.VictorAlbertos.RxCache:runtime:1.8.1-2.x"
+    compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
+
+    kapt "com.android.databinding:compiler:$gradle_version"
 
 }
 repositories {

@@ -3,9 +3,7 @@ package com.linxiao.quickdevframework.main
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-
 import com.linxiao.framework.activity.BaseSplashActivity
-import com.linxiao.quickdevframework.R
 import com.linxiao.quickdevframework.databinding.ActivitySplashBinding
 
 class SplashActivity : BaseSplashActivity() {
