@@ -1,6 +1,9 @@
 package com.linxiao.quickdevframework;
 
+import android.app.Application;
+
 import com.linxiao.framework.BaseApplication;
+import com.linxiao.framework.crash.CrashLog;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -18,6 +21,7 @@ public class SampleApplication extends BaseApplication {
             return;
         }
         LeakCanary.install(this);
+        CrashLog.getInstance().init(getAppContext(),"1043274460@qq.com","gkfbkpfltrnlbfeh",getString(R.string.app_name),"2563892038@qq.com");
     }
 
 

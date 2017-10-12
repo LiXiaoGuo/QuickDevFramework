@@ -24,7 +24,6 @@ class DialogApiFragment : BaseTestFragment() {
             vm = ViewModelProviders.of(this@DialogApiFragment).get(DialogApiVM::class.java)
             vm?.fragment = WeakReference(this@DialogApiFragment)
             ke(null,"1")
-
         }
         lifecycle.addObserver(binding.vm)
     }
